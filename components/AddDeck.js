@@ -29,16 +29,9 @@ class AddDeck extends Component {
         if (userInput) {
             handleNewDeckSubmition(userInput)
                 .then((newDeck) => {
-                    // console.log(newDeck, "yyyyyyyyyyyyyyyyyyyyyy")
                     this.setState({ deckName: '' })
                     this.props.navigation.navigate('Deck', { deck: newDeck })
                 })
-            // this.setState({ deckName: '' })
-            // //console.log(newDeck, "newDeck")
-
-            // let newDeck =
-
-            // this.props.navigation.navigate('Deck', { deck: newDeck })
         }
         else {
             alert("Deck name cannot be submitted empty!")
@@ -47,7 +40,6 @@ class AddDeck extends Component {
     }
 
     render() {
-        // const { navigation } = this.props
         return (
             <KeyboardAvoidingView behavior='padding' style={{ flex: 1, textAlign: 'center', justifyContent: 'center', }}>
                 <Text style={{ fontSize: 36, fontWeight: 'bold', color: '#001057', marginBottom: 50, textAlign: 'center' }}>

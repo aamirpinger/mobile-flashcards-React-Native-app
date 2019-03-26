@@ -43,7 +43,7 @@ class Deck extends Component {
 
                 <TouchableHighlight
                     style={[{ backgroundColor: 'maroon', }, styles.button]}
-                    onPress={() => navigation.navigate('AddQuestion')}
+                    onPress={() => navigation.navigate('AddCard', { title: deck.title })}
                 >
                     <Text style={{ fontSize: 20, color: 'white' }}>
                         Add Card

@@ -4,7 +4,7 @@ import {
 } from 'react-navigation';
 
 import Deck from '../components/Deck'
-import AddQuestion from '../components/AddQuestion'
+import AddCard from '../components/AddCard'
 import Quiz from '../components/Quiz'
 import TabNavigator from './TabNavigator'
 
@@ -22,10 +22,10 @@ const StackNavigator = createStackNavigator(
                 title: navigation.state.params.deck.title
             })
         },
-        AddQuestion: {
-            screen: AddQuestion,
+        AddCard: {
+            screen: AddCard,
             navigationOptions: {
-                title: "ADD Question",
+                title: "ADD Card",
             }
         },
         StartQuiz: {

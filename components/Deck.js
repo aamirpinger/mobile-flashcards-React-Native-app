@@ -22,8 +22,6 @@ class Deck extends Component {
         const navigation = this.props.navigation
         const deck = navigation.getParam('deck')
         const { handleDeckDelete } = this.props.screenProps
-        //console.log(deck, "fffffffffffffffffffffffffffffffffff")
-        console.log(deck.questions)
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
                 <Text style={{

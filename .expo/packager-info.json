@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 6089,
-  "expoServerNgrokUrl": "https://m2-paf.anonymous.mobile-flashcards-react-native.exp.direct",
-  "packagerNgrokUrl": "https://packager.m2-paf.anonymous.mobile-flashcards-react-native.exp.direct",
-  "ngrokPid": 6154,
+  "packagerPid": 28009,
+  "expoServerNgrokUrl": "https://tt-ezg.anonymous.mobile-flashcards-react-native.exp.direct",
+  "packagerNgrokUrl": "https://packager.tt-ezg.anonymous.mobile-flashcards-react-native.exp.direct",
+  "ngrokPid": 28075,
   "webpackServerPort": null
 }

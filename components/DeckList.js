@@ -18,7 +18,6 @@ function DeckList(props) {
         <ScrollView>
             {
                 Object.values(decks).map((deck) => {
-                    console.log(deck, "decklistttttttttttttttttt")
                     return (
                         <TouchableHighlight
                             key={now() + Math.ceil(Math.random() * 1000)}

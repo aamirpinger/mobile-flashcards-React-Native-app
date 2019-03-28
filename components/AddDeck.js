@@ -27,7 +27,7 @@ class AddDeck extends Component {
         const userInput = this.state.deckName
 
         if (userInput) {
-            handleNewDeckSubmition(userInput)
+            handleNewDeckSubmition(userInput.trim())
                 .then((newDeck) => {
                     this.setState({ deckName: '' })
                     this.props.navigation.navigate('Deck', { deck: newDeck })

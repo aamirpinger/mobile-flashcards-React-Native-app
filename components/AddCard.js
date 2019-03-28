@@ -62,7 +62,7 @@ class AddCard extends Component {
                         </Text>
                         <Text style={{ fontSize: 24, marginBottom: 25, textAlign: 'center' }}>
                             Question:
-                        </Text>
+                            </Text>
                         <TextInput
                             value={this.state.question}
                             onChangeText={this.handleQuestionChange}
@@ -70,7 +70,7 @@ class AddCard extends Component {
                         />
                         <Text style={{ fontSize: 24, marginBottom: 25, textAlign: 'center' }}>
                             Answer
-                       </Text>
+                            </Text>
                         <TextInput
                             value={this.state.answer}
                             onChangeText={this.handleAnswerChange}

@@ -24,25 +24,19 @@ class Deck extends Component {
         const { handleDeckDelete } = this.props.screenProps
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-                <Text style={{
-                    fontStyle: 'italic',
-                    fontWeight: 'bold',
-                    color: 'olive',
-                    fontSize: 35,
-                }}>
+                <Text style={{ fontSize: 36, textDecorationLine: 'underline', borderBottomColor: 'orange', borderBottomWidth: 2, borderTopColor: 'orange', borderTopWidth: 2, fontWeight: 'bold', color: '#001057', textAlign: 'center' }}>
                     {deck.title}
                 </Text>
+
                 <Text style={{
-                    fontStyle: 'italic',
-                    fontWeight: 'bold',
-                    color: 'olive',
-                    fontSize: 35,
+                    fontSize: 25,
+                    marginBottom: 50,
                 }}>
                     {deck.questions.length} cards
                 </Text>
 
                 <TouchableHighlight
-                    style={[{ backgroundColor: 'maroon', }, styles.button]}
+                    style={styles.button}
                     onPress={() => navigation.navigate('AddCard', { title: deck.title })}
                 >
                     <Text style={{ fontSize: 20, color: 'white' }}>
@@ -52,8 +46,8 @@ class Deck extends Component {
 
 
                 <TouchableHighlight
-                    style={[{ backgroundColor: 'olive', }, styles.button]}
-                    onPress={() => navigation.navigate('StartQuiz')}
+                    style={styles.button}
+                    onPress={() => navigation.navigate('StartQuiz', { deck, })}
                 >
                     <Text style={{ fontSize: 20, color: 'white' }}>
                         Start Quiz
@@ -61,7 +55,7 @@ class Deck extends Component {
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                    style={[{ backgroundColor: 'red', }, styles.button]}
+                    style={styles.button}
                     onPress={() => handleDeckDelete(deck.title)}
                 >
                     <Text style={{ fontSize: 20, color: 'white' }}>
@@ -77,11 +71,15 @@ class Deck extends Component {
 
 const styles = StyleSheet.create({
     button: {
-        width: 120,
+        width: 150,
         margin: 20,
-        borderWidth: 2,
-        borderRadius: 8,
+        height: 40,
+        borderRadius: 6,
         alignItems: 'center',
+        backgroundColor: '#001057',
+        borderBottomColor: 'orange',
+        borderBottomWidth: 2,
+        justifyContent: 'center',
     }
 })
 export default Deck

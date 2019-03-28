@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react';
-// import TabNavigator from '../routes'
 import StackNavigator from '../routes/DeckRoute'
-import { View, AsyncStorage } from 'react-native'
 import Statusbar from './Statusbar'
-import NavigationService from './NavigationService';
 import * as AsyncAPI from '../utils/AsyncAPI'
 import { NavigationActions, navigation } from 'react-navigation';
 
@@ -59,10 +56,10 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.initialData()
+        AsyncAPI.initiateLocalNotification()
     }
 
     render() {
-        console.log(this.state, "stattttttttttttttttteeeeeeeeee")
         return (
             <Fragment>
                 <Statusbar backgroundColor='#001057'
@@ -75,10 +72,6 @@ class Dashboard extends Component {
                         handleNewQuestionSubmition: this.handleNewQuestionSubmition
                     }}
                     ref={nav => { this.navigator = nav }}
-
-                // ref={navigatorRef => {
-                //     NavigationService.setTopLevelNavigator(navigatorRef);
-                // }}
                 />
             </Fragment>
         );

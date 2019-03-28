@@ -1,5 +1,10 @@
-import { AsyncStorage } from 'react-native'
-import { now } from 'moment';
+import { AsyncStorage, Platform } from 'react-native'
+import {
+    Constants,
+    Notifications,
+    Permissions
+} from 'expo'
+
 const initialData = {
     React: {
         title: 'React',
@@ -26,8 +31,6 @@ const initialData = {
 }
 
 export async function loadInitialData() {
-    await AsyncStorage.clear()
-
     Object.values(initialData).map((deck) => {
         addCompleteDeck(deck)
     })
@@ -76,8 +79,6 @@ export function saveDeckTitle(title) {
 
 export function getDeck(key) {
     return AsyncStorage.getItem(key, (err, result) => {
-        // let parsedResult = JSON.parse(result)
-        // console.log(typeof parsedResult, "parjssssssoooooooooooooonnnnnnnnnnn")
         return result
     });
 }
@@ -85,36 +86,88 @@ export function getDeck(key) {
 
 
 export function addCardToDeck(title, card) {
-    // console.log(title, "tttttttt", card, "new qeqqqqqqqqqqqq")
     return getDeck(title)
         .then((deck) => {
 
             let deckObj = JSON.parse(deck)
             deckObj.questions.push(card)
-            // console.log(deckObj, "updated")
             return AsyncStorage.mergeItem(title, JSON.stringify(deckObj))
                 .then((err) => {
                     console.log("new card added", err)
-                    //console.log(showAsyncStorageContentInDev())
                     return deckObj
                 })
         })
-
-
-    // AsyncStorage.getItem(title, (err, result) => {
-    //     const newData = JSON.parse(result)
-
-    //     newData.questions.push(card)
-
-    //     AsyncStorage.mergeItem(title, JSON.stringify(newData), () => {
-    //         console.log("new card added")
-    //     })
-
-    // });
 }
 
 function addCompleteDeck(deck) {
     AsyncStorage.setItem(deck.title, JSON.stringify(deck), () => {
         console.log("complete deck saved")
     })
+}
+
+export function markDateAsQuizAttempted() {
+    let currentDate = new Date()
+    currentDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()} `
+
+    AsyncStorage.setItem('dateLatestAttempted', currentDate)
+}
+
+export function chkForQuizAttemptedToday() {
+    let currentDate = new Date()
+    currentDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()} `
+
+    return AsyncStorage.getItem('dateLatestAttempted', (err, result) => {
+        return (result === currentDate) ? true : false
+    });
+}
+
+export function initiateLocalNotification() {
+
+    Permissions.askAsync(Permissions.NOTIFICATIONS)
+        .then(({ status }) => {
+            if (Constants.isDevice && status === 'granted') {
+                console.log('Notification permissions granted.')
+
+                const handleNotification = ({ notificationId }) => {
+
+                    this.chkForQuizAttemptedToday()
+                        .then((result) => {
+                            (result) && Notifications.dismissNotificationAsync(notificationId)
+                            console.log("quiz attempted", result)
+                        })
+                }
+
+                Notifications.addListener(handleNotification);
+
+                if (Platform.OS === 'android') {
+                    Notifications.createChannelAndroidAsync('quiz-local-reminder', {
+                        name: 'quiz-local-reminder',
+                        sound: true,
+                        vibrate: true,
+                        priority: 'max',
+                    })
+                    console.log("channel created for android")
+                }
+
+                const localNotification = {
+                    title: 'Reminder for quiz',
+                    body: "Hey!, Is everything fine today? You haven't attemeted any quiz today " + new Date(),
+                    ios: { sound: true, },
+                    android: {
+                        channelId: 'quiz-local-reminder',
+                        color: '#001057',
+                    }
+                };
+
+                const schedulingOptions = {
+                    time: (new Date()).getTime(),
+                    repeat: 'minute'  //'minute', 'hour', 'day', 'week', 'month', or 'year'.
+                }
+
+                Notifications.scheduleLocalNotificationAsync(
+                    localNotification, schedulingOptions
+                );
+                console.log("All done, notification scheduled successfully")
+            }
+        })
 }

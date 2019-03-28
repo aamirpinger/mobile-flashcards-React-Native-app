@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
+import { appTheme } from '../utils/Helper';
+import CustomKeyboardAvoidingView from '../utils/KeyboardShift'
 import {
     Text,
     View,
@@ -6,8 +9,6 @@ import {
     TouchableHighlight,
     StyleSheet,
 } from 'react-native'
-import { withNavigation } from 'react-navigation';
-import CustomKeyboardAvoidingView from '../utils/KeyboardShift'
 
 class AddCard extends Component {
 
@@ -15,7 +16,6 @@ class AddCard extends Component {
         question: '',
         answer: '',
     }
-
 
     handleQuestionChange = (newInput) => {
         this.setState({
@@ -47,34 +47,33 @@ class AddCard extends Component {
         else {
             alert("Question or it's answer cannot be submitted empty!")
         }
-
     }
 
     render() {
         const { title } = this.props.navigation.state.params
 
         return (
-            <CustomKeyboardAvoidingView behavior='padding' style={{ flex: 1, textAlign: 'center', justifyContent: 'center', }}>
+            <CustomKeyboardAvoidingView behavior='padding' style={styles.root}>
                 {() => (
                     <View>
-                        <Text style={{ fontSize: 24, textDecorationLine: 'underline', borderBottomColor: 'orange', borderBottomWidth: 2, borderTopColor: 'orange', borderTopWidth: 2, fontWeight: 'bold', color: '#001057', margin: 50, textAlign: 'center' }}>
+                        <Text style={styles.title}>
                             {`Deck: ${title}`}
                         </Text>
-                        <Text style={{ fontSize: 24, marginBottom: 25, textAlign: 'center' }}>
+                        <Text style={styles.inputBoxLabel}>
                             Question:
                             </Text>
                         <TextInput
                             value={this.state.question}
                             onChangeText={this.handleQuestionChange}
-                            style={{ borderColor: 'black', borderWidth: 1, margin: 5, paddingLeft: 5 }}
+                            style={styles.inputBox}
                         />
-                        <Text style={{ fontSize: 24, marginBottom: 25, textAlign: 'center' }}>
+                        <Text style={styles.inputBoxLabel}>
                             Answer
                             </Text>
                         <TextInput
                             value={this.state.answer}
                             onChangeText={this.handleAnswerChange}
-                            style={{ borderColor: 'black', borderWidth: 1, margin: 5, paddingLeft: 5 }}
+                            style={styles.inputBox}
                         />
 
                         <View style={{
@@ -84,7 +83,7 @@ class AddCard extends Component {
                                 style={styles.button}
                                 onPress={this.handleSubmit}
                             >
-                                <Text style={{ fontSize: 20, color: 'white' }}>
+                                <Text style={styles.buttonText}>
                                     SUBMIT
                                 </Text>
                             </TouchableHighlight>
@@ -96,6 +95,8 @@ class AddCard extends Component {
     }
 }
 
+const { themeBgColor, lineColor } = appTheme
+
 const styles = StyleSheet.create({
     button: {
         width: 150,
@@ -103,12 +104,43 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 6,
         alignItems: 'center',
-        backgroundColor: '#001057',
-        borderBottomColor: 'orange',
+        backgroundColor: themeBgColor,
+        borderBottomColor: lineColor,
         borderBottomWidth: 2,
+        justifyContent: 'center',
+    },
+    buttonText: {
+        fontSize: 20,
+        color: 'white'
+    },
+    inputBox: {
+        borderColor: 'black',
+        borderWidth: 1,
+        margin: 5,
+        paddingLeft: 5
+    },
+    inputBoxLabel: {
+        fontSize: 24,
+        marginBottom: 25,
+        textAlign: 'center'
+    },
+    title: {
+        fontSize: 24,
+        textDecorationLine: 'underline',
+        borderBottomColor: lineColor,
+        borderBottomWidth: 2,
+        borderTopColor: lineColor,
+        borderTopWidth: 2,
+        fontWeight: 'bold',
+        color: themeBgColor,
+        margin: 50,
+        textAlign: 'center'
+    },
+    root: {
+        flex: 1,
+        textAlign: 'center',
         justifyContent: 'center',
     }
 })
-
 
 export default withNavigation(AddCard)

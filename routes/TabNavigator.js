@@ -6,13 +6,9 @@ import {
     createAppContainer
 } from 'react-navigation';
 import DeckList from '../components/DeckList'
+import { appTheme } from '../utils/Helper';
 
-//***************************************************/
-// Options to try below are createBottomTabNavigator
-// and createMaterialTopTabNavigator
-//***************************************************/
-
-
+const { themeBgColor, lineColor } = appTheme
 const TabNavigator = createMaterialTopTabNavigator(
     {
         Decks: {
@@ -29,12 +25,7 @@ const TabNavigator = createMaterialTopTabNavigator(
         },
     },
     {
-        //*****************************************************************
-        // further properties are listed on the following link
-        //https://reactnavigation.org/docs/en/material-top-tab-navigator.html
-        //*****************************************************************
         initialRouteName: "Decks",
-        // change following with top / bottom
         tabBarPosition: 'bottom',
         tabBarOptions: {
             showIcon: true,
@@ -42,16 +33,11 @@ const TabNavigator = createMaterialTopTabNavigator(
                 fontSize: 14,
                 color: 'white',
             },
-            // tabStyle: {
-            //     width: 100,
-
-            // },
             style: {
-                backgroundColor: '#001057',
-                // borderRadius: 10,
+                backgroundColor: themeBgColor,
             },
             indicatorStyle: {
-                backgroundColor: 'orange',
+                backgroundColor: lineColor,
             }
         },
     },

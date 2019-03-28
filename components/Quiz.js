@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ShowResult from './ShowResult'
+import { appTheme } from '../utils/Helper';
 import {
     Text,
     View,
@@ -57,8 +58,8 @@ class Quiz extends Component {
 
         return (!totalQuestions)
             ? (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 35, color: '#001057', marginBottom: 30, textAlign: 'center' }}>
+                <View style={styles.root}>
+                    <Text style={styles.questionAnswerText}>
                         There is no question to quiz in this deck
                 </Text>
                 </View>
@@ -73,13 +74,13 @@ class Quiz extends Component {
             )
                 : (
                     <ScrollView>
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-                            <Text style={{ fontSize: 15, color: '#001057', marginBottom: 30, alignItems: 'flex-start', textAlign: 'left', justifyContent: 'flex-start' }}>
+                        <View style={styles.root}>
+                            <Text style={styles.questionCount}>
                                 {
                                     `${currentQuestion + 1} / ${totalQuestions}`
                                 }
                             </Text>
-                            <Text style={{ fontSize: 30, color: '#001057', marginBottom: 30, textAlign: 'center' }}>
+                            <Text style={styles.questionAnswerText}>
                                 {
                                     (this.state.faceUp) ? question : answer
                                 }
@@ -87,7 +88,7 @@ class Quiz extends Component {
                             <TouchableOpacity
                                 onPress={this.toggleFace}
                             >
-                                <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: 'red', margin: 30 }}>
+                                <Text style={styles.questionAnswerButton}>
                                     {
                                         `SHOW ${(this.state.faceUp) ? 'ANSWER' : 'QUESTION'}`
                                     }
@@ -99,22 +100,22 @@ class Quiz extends Component {
                             }}>
                                 <View style={styles.buttonBorder}>
                                     <TouchableHighlight
-                                        style={[styles.button, { backgroundColor: 'red' }]}
+                                        style={[styles.button, { backgroundColor: 'darkgreen' }]}
                                         onPress={this.handleCorrect}
                                     >
-                                        <Text style={{ fontSize: 15, color: 'yellow' }}>
+                                        <Text style={styles.answerButtonText}>
                                             CORRECT
-                            </Text>
+                                        </Text>
                                     </TouchableHighlight>
                                 </View>
                                 <View style={styles.buttonBorder}>
                                     <TouchableHighlight
-                                        style={[styles.button, { backgroundColor: 'darkgreen' }]}
+                                        style={[styles.button, { backgroundColor: 'red' }]}
                                         onPress={this.handleIncorrect}
                                     >
-                                        <Text style={{ fontSize: 15, color: 'yellow' }}>
+                                        <Text style={styles.answerButtonText}>
                                             INCORRECT
-                            </Text>
+                                        </Text>
                                     </TouchableHighlight>
                                 </View>
                             </View>
@@ -124,6 +125,8 @@ class Quiz extends Component {
     }
 }
 
+const { themeBgColor } = appTheme
+
 const styles = StyleSheet.create({
     button: {
         width: 90,
@@ -131,10 +134,6 @@ const styles = StyleSheet.create({
         height: 90,
         borderRadius: 100,
         alignItems: 'center',
-        // backgroundColor: '#001057',
-        //borderBottomColor: 'orange',
-        // borderWidth: 4,
-        // padding: 8,
         justifyContent: 'center',
     },
     buttonBorder: {
@@ -145,6 +144,36 @@ const styles = StyleSheet.create({
         width: 110,
         borderWidth: 2,
         margin: 30,
+    },
+    answerButtonText: {
+        fontSize: 15,
+        color: 'yellow'
+    },
+    questionAnswerButton: {
+        fontSize: 20,
+        textDecorationLine: 'underline',
+        color: 'red',
+        margin: 30
+    },
+    questionAnswerText: {
+        fontSize: 30,
+        color: themeBgColor,
+        marginBottom: 30,
+        textAlign: 'center'
+    },
+    questionCount: {
+        fontSize: 15,
+        color: themeBgColor,
+        marginBottom: 30,
+        alignItems: 'flex-start',
+        textAlign: 'left',
+        justifyContent: 'flex-start'
+    },
+    root: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20
     }
 })
 

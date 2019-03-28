@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import StackNavigator from '../routes/DeckRoute'
 import Statusbar from './Statusbar'
 import * as AsyncAPI from '../utils/AsyncAPI'
-import { NavigationActions, navigation } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 
 class Dashboard extends Component {
     state = {
@@ -62,8 +62,7 @@ class Dashboard extends Component {
     render() {
         return (
             <Fragment>
-                <Statusbar backgroundColor='#001057'
-                    barStyle='light-content' />
+                <Statusbar barStyle='light-content' />
                 <StackNavigator
                     screenProps={{
                         decks: this.state.decks,

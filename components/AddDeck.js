@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
+import { appTheme } from '../utils/Helper';
 import {
     Text,
     View,
@@ -7,7 +9,6 @@ import {
     TouchableHighlight,
     StyleSheet,
 } from 'react-native'
-import { withNavigation } from 'react-navigation';
 
 class AddDeck extends Component {
 
@@ -27,31 +28,33 @@ class AddDeck extends Component {
         const userInput = this.state.deckName
 
         if (userInput) {
-            handleNewDeckSubmition(userInput.trim())
-                .then((newDeck) => {
-                    this.setState({ deckName: '' })
-                    this.props.navigation.navigate('Deck', { deck: newDeck })
-                })
+            if (userInput === 'dateLatestAttempted') {
+                alert("dateLatestAttempted is a reserve word in this app, kindly use another Title for the Deck")
+            } else {
+                handleNewDeckSubmition(userInput.trim())
+                    .then((newDeck) => {
+                        this.setState({ deckName: '' })
+                        this.props.navigation.navigate('Deck', { deck: newDeck })
+                    })
+            }
         }
-        else {
-            alert("Deck name cannot be submitted empty!")
-        }
+        else { alert("Deck name cannot be submitted empty!") }
 
     }
 
     render() {
         return (
-            <KeyboardAvoidingView behavior='padding' style={{ flex: 1, textAlign: 'center', justifyContent: 'center', }}>
-                <Text style={{ fontSize: 36, fontWeight: 'bold', color: '#001057', marginBottom: 50, textAlign: 'center' }}>
+            <KeyboardAvoidingView behavior='padding' style={styles.root}>
+                <Text style={styles.header}>
                     ADD DECK
                 </Text>
-                <Text style={{ fontSize: 24, marginBottom: 25, textAlign: 'center' }}>
+                <Text style={styles.subHead}>
                     What would be the title of your new deck?
                 </Text>
                 <TextInput
                     value={this.state.deckName}
                     onChangeText={this.handleDeckNameInputChange}
-                    style={{ borderColor: 'black', borderWidth: 1, margin: 5, paddingLeft: 5 }}
+                    style={styles.textbox}
                 />
 
                 <View style={{
@@ -61,7 +64,7 @@ class AddDeck extends Component {
                         style={styles.button}
                         onPress={this.handleSubmit}
                     >
-                        <Text style={{ fontSize: 20, color: 'white' }}>
+                        <Text style={styles.submit}>
                             SUBMIT
                     </Text>
                     </TouchableHighlight>
@@ -70,7 +73,7 @@ class AddDeck extends Component {
         );
     }
 }
-
+const { themeBgColor, lineColor } = appTheme
 const styles = StyleSheet.create({
     button: {
         width: 150,
@@ -78,10 +81,37 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 6,
         alignItems: 'center',
-        backgroundColor: '#001057',
-        borderBottomColor: 'orange',
+        backgroundColor: themeBgColor,
+        borderBottomColor: lineColor,
         borderBottomWidth: 2,
         justifyContent: 'center',
+    },
+    root: {
+        flex: 1,
+        textAlign: 'center',
+        justifyContent: 'center',
+    },
+    header: {
+        fontSize: 36,
+        fontWeight: 'bold',
+        color: themeBgColor,
+        marginBottom: 50,
+        textAlign: 'center'
+    },
+    subHead: {
+        fontSize: 24,
+        marginBottom: 25,
+        textAlign: 'center'
+    },
+    textbox: {
+        borderColor: 'black',
+        borderWidth: 1,
+        margin: 5,
+        paddingLeft: 5
+    },
+    submit: {
+        fontSize: 20,
+        color: 'white'
     }
 })
 

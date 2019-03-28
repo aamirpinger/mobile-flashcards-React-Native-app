@@ -1,29 +1,30 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation'
+import { appTheme } from '../utils/Helper';
+import { markDateAsQuizAttempted } from '../utils/AsyncAPI'
 import {
     Text,
     View,
     StyleSheet,
     TouchableHighlight,
-    TouchableOpacity,
-    ProgressBarAndroid
 } from 'react-native'
 
 
 class ShowResult extends Component {
 
     componentDidMount() {
-        AsyncAPI.markDateAsQuizAttempted()
+        markDateAsQuizAttempted()
     }
 
     render() {
-        const { totalQuestions, correctCount, deck, restartQuiz, navigation } = props
+        const { totalQuestions, correctCount, restartQuiz, navigation } = this.props
+
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 30, color: '#001057', marginBottom: 30, alignItems: 'flex-start', textAlign: 'left', justifyContent: 'flex-start' }}>
-                    {`Quiz Result ${(correctCount / totalQuestions) * 100}%`}
+            <View style={styles.root}>
+                <Text style={styles.header}>
+                    {`Quiz Result ${((correctCount / totalQuestions) * 100).toFixed(2)}%`}
                 </Text>
-                <Text style={{ fontSize: 20, color: '#001057', marginBottom: 30, textAlign: 'center' }}>
+                <Text style={styles.subHeading}>
                     {
                         `Total ${correctCount} question(s) answered correctlty out of total ${totalQuestions} questions(s)`
                     }
@@ -37,38 +38,61 @@ class ShowResult extends Component {
                         style={styles.button}
                         onPress={restartQuiz}
                     >
-                        <Text style={{ fontSize: 15, color: 'yellow' }}>
+                        <Text style={styles.buttonText}>
                             RESTART QUIZ
-                    </Text>
+                        </Text>
                     </TouchableHighlight>
                     <TouchableHighlight
                         style={styles.button}
                         onPress={() => navigation.goBack()}
                     >
-                        <Text style={{ fontSize: 15, color: 'yellow' }}>
+                        <Text style={styles.buttonText}>
                             GOTO DECK
-                    </Text>
+                        </Text>
                     </TouchableHighlight>
-
                 </View>
             </View >
         )
     }
 }
 
+const { themeBgColor } = appTheme
+
 const styles = StyleSheet.create({
+    root: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     button: {
         width: 140,
         margin: 20,
         height: 50,
-        // borderRadius: 100,
         alignItems: 'center',
-        backgroundColor: '#001057',
+        backgroundColor: themeBgColor,
         borderBottomColor: 'orange',
         borderWidth: 4,
         padding: 8,
         justifyContent: 'center',
     },
+    header: {
+        fontSize: 30,
+        color: themeBgColor,
+        marginBottom: 30,
+        alignItems: 'flex-start',
+        textAlign: 'left',
+        justifyContent: 'flex-start'
+    },
+    subHeading: {
+        fontSize: 20,
+        color: themeBgColor,
+        marginBottom: 30,
+        textAlign: 'center'
+    },
+    buttonText: {
+        fontSize: 15,
+        color: 'white'
+    }
 })
 
 export default withNavigation(ShowResult)

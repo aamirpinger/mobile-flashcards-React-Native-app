@@ -1,37 +1,26 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight, StyleSheet } from 'react-native'
-
-import { Entypo } from '@expo/vector-icons'
+import { appTheme } from '../utils/Helper';
 import {
-    createStackNavigator,
-    createAppContainer
-} from 'react-navigation';
-
-// **********************************************************
-//Don't forget to run on commnad prompt and restart you app
-//
-//      $ npm install react-navigation --save
-//
-// **********************************************************
+    Text,
+    View,
+    TouchableHighlight,
+    StyleSheet
+} from 'react-native'
 
 
 class Deck extends Component {
 
     render() {
-
         const navigation = this.props.navigation
         const deck = navigation.getParam('deck')
         const { handleDeckDelete } = this.props.screenProps
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-                <Text style={{ fontSize: 36, textDecorationLine: 'underline', borderBottomColor: 'orange', borderBottomWidth: 2, borderTopColor: 'orange', borderTopWidth: 2, fontWeight: 'bold', color: '#001057', textAlign: 'center' }}>
+            <View style={styles.root}>
+                <Text style={styles.title}>
                     {deck.title}
                 </Text>
 
-                <Text style={{
-                    fontSize: 25,
-                    marginBottom: 50,
-                }}>
+                <Text style={styles.subHead}>
                     {deck.questions.length} cards
                 </Text>
 
@@ -39,7 +28,7 @@ class Deck extends Component {
                     style={styles.button}
                     onPress={() => navigation.navigate('AddCard', { title: deck.title })}
                 >
-                    <Text style={{ fontSize: 20, color: 'white' }}>
+                    <Text style={styles.buttonText}>
                         Add Card
                     </Text>
                 </TouchableHighlight>
@@ -49,7 +38,7 @@ class Deck extends Component {
                     style={styles.button}
                     onPress={() => navigation.navigate('StartQuiz', { deck, })}
                 >
-                    <Text style={{ fontSize: 20, color: 'white' }}>
+                    <Text style={styles.buttonText}>
                         Start Quiz
                     </Text>
                 </TouchableHighlight>
@@ -58,7 +47,7 @@ class Deck extends Component {
                     style={styles.button}
                     onPress={() => handleDeckDelete(deck.title)}
                 >
-                    <Text style={{ fontSize: 20, color: 'white' }}>
+                    <Text style={styles.buttonText}>
                         Delete
                     </Text>
                 </TouchableHighlight>
@@ -69,6 +58,7 @@ class Deck extends Component {
     }
 }
 
+const { themeBgColor, lineColor } = appTheme
 const styles = StyleSheet.create({
     button: {
         width: 150,
@@ -76,10 +66,35 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 6,
         alignItems: 'center',
-        backgroundColor: '#001057',
-        borderBottomColor: 'orange',
+        backgroundColor: themeBgColor,
+        borderBottomColor: lineColor,
         borderBottomWidth: 2,
         justifyContent: 'center',
+    },
+    root: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize: 36,
+        textDecorationLine: 'underline',
+        borderBottomColor: lineColor,
+        borderBottomWidth: 2,
+        borderTopColor: lineColor,
+        borderTopWidth: 2,
+        fontWeight: 'bold',
+        color: themeBgColor,
+        textAlign: 'center'
+    },
+    subHead: {
+        fontSize: 25,
+        marginBottom: 50,
+    },
+    buttonText: {
+        fontSize: 20,
+        color: 'white'
     }
+
 })
 export default Deck

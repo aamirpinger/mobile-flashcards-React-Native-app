@@ -1,65 +1,85 @@
 import React from 'react';
+import { isNoDeck, appTheme } from '../utils/Helper';
+import { withNavigation } from 'react-navigation';
 import {
     ScrollView,
-    Text, View,
+    Text,
+    View,
+    StyleSheet,
     TouchableOpacity,
 } from 'react-native'
-import { now } from 'moment';
-// import DeckRoute from '../routes/DeckRoute'
-import { withNavigation } from 'react-navigation';
-import FlipCard from '../utils/FlipCard'
+
 function DeckList(props) {
     const { decks } = props.screenProps
     const navigation = props.navigation
-    const bgColors = ["#f7f7f7", "#dfe3ee", "#8b9dc3", "#3b5998", "#b3cde0", "#6497b1", "#005b96", "#03396c"]
     let bgColorIndex = -1
 
     return (
         <ScrollView>
             {
-                (!decks)
-                    ? <Text style={{ fontSize: 24, textDecorationLine: 'underline', borderBottomColor: 'orange', borderBottomWidth: 2, borderTopColor: 'orange', borderTopWidth: 2, fontWeight: 'bold', color: '#001057', margin: 50, textAlign: 'center' }}>
+                (isNoDeck(decks))
+                    ? <Text style={styles.header}>
                         No deck to display
                     </Text>
                     : Object.values(decks).map((deck) => {
-                        return (
-                            <TouchableOpacity
-                                key={now() + Math.ceil(Math.random() * 1000)}
-                                style={{
-                                    backgroundColor: (bgColorIndex >= (bgColors.length - 1)) ? bgColors[bgColorIndex = 0] : bgColors[++bgColorIndex],
-                                    borderWidth: 2,
-                                    borderColor: "#001057",
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: 150,
-                                    borderRadius: 15,
-                                }}
-                                onPress={() => navigation.navigate('Deck', { deck: deck })}
-                            >
-                                <View style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}>
-                                    <Text style={{
-                                        color: 'black',
-                                        fontSize: 20,
-                                    }}>
-                                        {deck.title}
-                                    </Text>
-                                    <Text style={{
-                                        color: 'black',
-                                        fontSize: 20,
-                                    }}>
-                                        {` ${deck.questions.length} cards`}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        )
+                        return (!deck.title) ? null
+                            : (
+                                <TouchableOpacity
+                                    key={deck.title}
+                                    style={[
+                                        styles.deckBoxes,
+                                        { backgroundColor: (bgColorIndex >= (deckBgColorList.length - 1)) ? deckBgColorList[bgColorIndex = 0] : deckBgColorList[++bgColorIndex] }
+                                    ]}
+                                    onPress={() => navigation.navigate('Deck', { deck: deck })}
+                                >
+                                    <View style={styles.titleView}>
+                                        <Text style={styles.title}>
+                                            {deck.title}
+                                        </Text>
+                                        <Text style={styles.title}>
+                                            {` ${deck.questions.length} cards`}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
                     }
                     )
             }
-            {/* <FlipCard /> */}
         </ScrollView>
     )
 }
+const { themeBgColor, deckBgColorList, deckBorderColor, deckFontColor, lineColor } = appTheme
+const styles = StyleSheet.create({
+    header: {
+        fontSize: 24,
+        textDecorationLine: 'underline',
+        borderBottomColor: lineColor,
+        borderBottomWidth: 2,
+        borderTopColor: lineColor,
+        borderTopWidth: 2,
+        fontWeight: 'bold',
+        color: themeBgColor,
+        margin: 50,
+        textAlign: 'center'
+    },
+    deckBoxes: {
+        borderWidth: 2,
+        borderColor: deckBorderColor,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 150,
+        borderRadius: 15,
+    },
+    title: {
+        color: deckFontColor,
+        fontSize: 20,
+    },
+    titleView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+
+})
+
+
 export default withNavigation(DeckList)
